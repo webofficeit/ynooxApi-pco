@@ -59,7 +59,7 @@ class Pdf4me extends ResourceAbstract
 
         $this->setRoutes([
             'jobConfig'           => 'job/jobConfigs',
-            'pdfOptimize'         => 'Pdf/Optimize',
+            'pdfOptimize'         => 'Optimize/Optimize',
         ]);
     }
     
