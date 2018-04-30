@@ -2,11 +2,13 @@
 
 namespace Ynooxpdf4me\API\Resources\Core;
 
-use Ynooxpdf4me\API\Exceptions\MissingParametersException;
+use Ynooxpdf4me\API\Exceptions\MissingParametersExceptionCustomException;
 use Ynooxpdf4me\API\Exceptions\ResponseException;
 use Ynooxpdf4me\API\Http;
 use Ynooxpdf4me\API\Resources\ResourceAbstract;
 use Ynooxpdf4me\API\Traits\Utility\InstantiatorTrait;
+use Ynooxpdf4me\API\Traits\Schema\PdfSchema;
+use Ynooxpdf4me\API\Traits\Schema\PdfDataContractValidate;
 
 /**
  * The Pdf class exposes key methods for document
@@ -17,17 +19,15 @@ use Ynooxpdf4me\API\Traits\Utility\InstantiatorTrait;
  * @method Attachments attachments()
  * @method TicketMetrics metrics()
  */
-class Pdf4me extends ResourceAbstract
-{
-    use InstantiatorTrait;
+class Pdf4me extends ResourceAbstract {
 
+    use InstantiatorTrait;
+    use PdfDataContractValidate;
 
     /**
      * @var array
      */
     protected $lastAttachments = [];
-
-    
 
     /**
      * Wrapper for common GET requests
@@ -39,12 +39,9 @@ class Pdf4me extends ResourceAbstract
      * @throws ResponseException
      * @throws \Exception
      */
-    private function sendGetRequest($route, array $params = [])
-    {
+    private function sendGetRequest($route, array $params = []) {
         $response = Http::send(
-            $this->client,
-            $this->getRoute($route, $params),
-            ['queryParams' => $params]
+                        $this->client, $this->getRoute($route, $params), ['queryParams' => $params]
         );
 
         return $response;
@@ -53,35 +50,38 @@ class Pdf4me extends ResourceAbstract
     /**
      * Declares routes to be used by this resource.
      */
-    protected function setUpRoutes()
-    {
+    protected function setUpRoutes() {
         parent::setUpRoutes();
 
         $this->setRoutes([
-            'jobConfig'           => 'job/jobConfigs',
-            'pdfOptimize'         => 'Optimize/Optimize',
+            'jobConfig' => 'job/jobConfigs',
+            'pdfOptimize' => 'Optimize/Optimize',
         ]);
     }
-    
+
     /**
      * To get pdfoptimizater
      */
-    public function pdfOptimize(array $params)
-    {
+    public function pdfOptimize(array $params) {
         $route = $this->getRoute(__FUNCTION__, $params);
+
+       
+        $this->checkValidationSchemaData($params,$route);
+
         return $this->client->post(
-            $route,
-            $params
+                        $route, $params
         );
     }
+
     
+
     /**
      * To get jobconfig parameter
      */
-    public function jobConfig()
-    {
+    public function jobConfig() {
         $response = $this->client->get($this->getRoute(__FUNCTION__));
         return $response;
     }
 
 }
+
