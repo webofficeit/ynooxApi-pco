@@ -49,9 +49,168 @@ $client->setAuthHeader($clientid,$secretkey);
 ### Basic Operations
 
 ``` php
+//post dropDocument
+$dropDocument = $client->pdf4me()->dropDocument([
+
+	"notification"=> [
+		"getNotification"=> true,
+		"connectionId"=> "string"
+	],
+	"jobId"=> "string",
+	"documentId"=> "string",
+	"userId"=> "string",
+	"url"=> "string",
+	"document"=> "string",
+	"fileName"=> "string",
+	"cloudStorageProvider"=> "undef",
+	"cloudStorageFiles"=> [
+		"string"
+	],
+	"cloudStorageFilesDesc"=> "string",
+	"getNotified"=> true,
+	"connectionId"=> "string",
+	"userFingerprint"=> [
+		"ipAdress"=> "string",
+		"browser"=> "string"
+	]
+
+    ]);
+
+print_r($dropDocument);
+
+//post produceDocuments
+
+$produceDocuments = $client->pdf4me()->produceDocuments([
+            "jobId"=> "00000000-0000-0000-0000-000000000000",
+            'documents'=> ['jobId' => '00000000-0000-0000-0000-000000000000',
+            'name' => 'sdfbgh',
+            'docData' => 'JVBERi0xLjUKJeLjz9MKMSAwIG9iago8PCAKICAgL1R5cGUgL0NhdGFsb2cKICAgL1BhZ2VzIDIgMCBSCiAgIC9QYWdlTGF5b3V0IC9PbmVDb2x1bW4KICAgL1BhZ2VNb2RlIC9Vc2VOb25lCiAgIC9PQ1Byb3BlcnRpZXMgPDwgCiAgIC9EIDw8IAogICAvT3JkZXIgW10KICAgL0FTIFs8PCAKICAgL0V2ZW50IC9WaWV3CiAgIC9DYXRlZ29yeSBbL1ZpZXcgXQo+PiA8PCAKICAgL0V2ZW50IC9QcmludAogICAvQ2F0ZWdvcnkgWy9QcmludCBdCj4+IDw8IAogICAvRXZlbnQgL0V4cG9ydAogICAvQ2F0ZWdvcnkgWy9FeHBvcnQgXQo+PiBdCj4+Cj4+Cj4+CmVuZG9iagoyIDAgb2JqCjw8IAogICAvVHlwZSAvUGFnZXMKICAgL0tpZHMgWzMgMCBSIF0KICAgL0NvdW50IDEKPj4KZW5kb2JqCjMgMCBvYmoKPDwgCiAgIC9UeXBlIC9QYWdlCiAgIC9QYXJlbnQgMiAwIFIKICAgL1Jlc291cmNlcyA8PCAKICAgL1Byb2NTZXQgWy9QREYgL1RleHQgXQogICAvRm9udCA8PCAKICAgL0YxIDYgMCBSCj4+Cj4+CiAgIC9NZWRpYUJveCBbMCAwIDU5NSA4NDJdCiAgIC9Db250ZW50cyA0IDAgUgo+PgplbmRvYmoKNCAwIG9iago8PCAKICAgL0ZpbHRlciAvRmxhdGVEZWNvZGUKICAgL0xlbmd0aCAxNDkKPj4Kc3RyZWFtCnhelY89C8JADIb3/IqM7WC8XK/3sQo6OFk4J3EQtKVgxar/H5urHI5K4CGB8D68I4ywirDcMLIij7EFhTKPDhSFEHy6GLWryKKzTHr6GuBQ7MtFXdwEL0Gft6vgIjiXR4xbWEdofvXUlqxBZzx9NE8JGgSnHJ6AgvusmdD+79IuSKeKjJldu6zpcoek4a/wBt4mcEBGCmVuZHN0cmVhbQplbmRvYmoKNSAwIG9iago8PCAKICAgL1Byb2R1Y2VyIDxGRUZGMDA2NDAwNkYwMDUwMDA0NDAwNDYwMDIwMDA1NjAwNjUwMDcyMDAyMDAwMzcwMDJFMDAzMjAwMjAwMDQyMDA3NTAwNjkwMDZDMDA2NDAwMjAwMDMzMDAzNzAwMzYwMDIwMDAyODAwNzUwMDZFMDA2QjAwNkUwMDZGMDA3NzAwNkUwMDIwMDA1NzAwNjkwMDZFMDA2NDAwNkYwMDc3MDA3MzAwMjAwMDc2MDA2NTAwNzIwMDczMDA2OTAwNkYwMDZFMDAyMDAwMkQwMDIwMDA1NjAwNjUwMDcyMDA3MzAwNjkwMDZGMDA2RTAwM0EwMDIwMDAzMTAwMzAwMDJFMDAzMDAwMkUwMDMxMDAzNjAwMzIwMDM5MDAzOTAwMjAwMDI4MDA3ODAwMzYwMDM0MDAyOTAwMjk+CiAgIC9DcmVhdGlvbkRhdGUgKEQ6MjAxODAxMjUyMTA2MTArMDUnMzAnKQo+PgplbmRvYmoKNiAwIG9iago8PCAKICAgL1R5cGUgL0ZvbnQKICAgL1N1YnR5cGUgL1RydWVUeXBlCiAgIC9Gb250RGVzY3JpcHRvciA3IDAgUgogICAvQmFzZUZvbnQgL0NvbnNvbGFzCiAgIC9GaXJzdENoYXIgMAogICAvTGFzdENoYXIgMjU1CiAgIC9XaWR0aHMgOCAwIFIKICAgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKPj4KZW5kb2JqCjcgMCBvYmoKPDwgCiAgIC9UeXBlIC9Gb250RGVzY3JpcHRvcgogICAvRm9udE5hbWUgL0NvbnNvbGFzCiAgIC9Bc2NlbnQgNzQzCiAgIC9DYXBIZWlnaHQgNjM4CiAgIC9EZXNjZW50IC0yNTcKICAgL0ZsYWdzIDMzCiAgIC9Gb250QkJveCBbLTQzMiAtMzAyIDY3NyAxMDExXQogICAvSXRhbGljQW5nbGUgMAogICAvU3RlbVYgODcKICAgL1hIZWlnaHQgNDkwCj4+CmVuZG9iago4IDAgb2JqCls1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgNTUwIDU1MCA1NTAgXQplbmRvYmoKeHJlZgowIDkgCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAxNSAwMDAwMCBuIAowMDAwMDAwMzIwIDAwMDAwIG4gCjAwMDAwMDAzODggMDAwMDAgbiAKMDAwMDAwMDU2NCAwMDAwMCBuIAowMDAwMDAwNzkyIDAwMDAwIG4gCjAwMDAwMDExODUgMDAwMDAgbiAKMDAwMDAwMTM3MiAwMDAwMCBuIAowMDAwMDAxNTg2IDAwMDAwIG4gCnRyYWlsZXIKPDwgCiAgIC9Sb290IDEgMCBSCiAgIC9JbmZvIDUgMCBSCiAgIC9TaXplIDkKPj4Kc3RhcnR4cmVmCjI2MjgKJSVFT0YK',
+            ],
+        'optimizeAction' => [
+            'profile' => 'max',
+            'useProfile' => true
+        ],
+        'notification' => ''
+    ]);
+
+print_r($produceDocuments);
+
+//post createArchiveJobConfig
+[
+            'jobId' => '00000000-0000-0000-0000-000000000000',
+             "sourceFolder"=> [
+    "storageType"=> "undef",
+    "folderName"=> "string",
+    "host"=> "string"
+  ],
+    "executionTrigger"=> [
+    "startTime"=> "2018-05-10T13:10:43.064Z",
+    "cronTrigger"=> "string",
+    "continues"=> true
+  ],
+    "archiveConfig"=> [
+    "archiveMetadata"=> [
+
+        "key"=> "string",
+        "value"=> "ddd"
+
+    ],
+    "stampAction"=> [
+      "pageSequence"=> "string",
+      "relativePosX"=> 0,
+      "relativePosY"=> 0,
+      "sizeX"=> 0,
+      "sizeY"=> 0,
+      "rotate"=> 0,
+      "autoorientation"=> true,
+      "alpha"=> 0,
+      "scale"=> "relToA4",
+      "alignX"=> "left",
+      "alignY"=> "top",
+      "stampType"=> "annotation",
+      "text"=> [
+        "format"=> true,
+        "size"=> 0,
+        "font"=> "string",
+        "color"=> [
+          "red"=> 1,
+          "green"=> 1,
+          "blue"=> 1
+        ],
+        "fontEncoding"=> "unicode",
+        "value"=> "sss",
+        "mode"=> "fill",
+        "rotate"=> [
+          "angle"=> 1,
+          "originX"=> 1,
+          "originY"=> 1
+        ],
+        "translate"=> [
+          "offsetX"=> 1,
+          "offsetY"=> 1
+        ],
+        "transform"=> [
+          "a"=> 1,
+          "b"=> 1,
+          "c"=>1,
+          "d"=>1,
+           "x"=>1,
+            "y"=>1
+
+        ]
+      ],
+      "image"=> [
+        "rectangle"=> [
+          "x"=> 0,
+          "y"=> 0,
+          "width"=> 0,
+          "height"=> 0
+        ],
+        "imageData"=> "string",
+        "imageType"=> "string",
+        "fileName"=> "string",
+        "compression"=> "cCITTFax",
+        "rotate"=> [
+          "angle"=> 1,
+          "originX"=> 1,
+          "originY"=> 1
+        ],
+        "translate"=> [
+          "offsetX"=> 1,
+          "offsetY"=> 1
+        ],
+        "transform"=> [
+          "a"=> 1,
+          "b"=> 1,
+          "c"=> 1,
+          "d"=> 1,
+          "x"=> 1,
+          "y"=> 1
+        ]
+      ],
+      "customProperties"=> [
+
+          "key"=> "string",
+          "value"=> "string"
+
+      ]
+    ],
+
+    "signatureConfig"=> [],
+    "useTSA"=> true,
+  ],
+      "targetFolder"=> [
+    "storageType"=> "undef",
+    "folderName"=> "string",
+    "host"=> "string"
+  ]  
+                ]
+
+
+print_r($createArchiveJob);
+
 //post convertToPdf
 $createToPdf = $client->pdf4me()->convertToPdf([
-
 "notification"=> [
   "getNotification"=> true,
   "connectionId"=> "test1"
@@ -75,7 +234,7 @@ $createToPdf = $client->pdf4me()->convertToPdf([
 ]
 
     ]);
-    
+
 print_r($createToPdf);
 
 //get getDocuments
