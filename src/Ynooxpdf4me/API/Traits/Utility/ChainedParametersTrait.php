@@ -4,13 +4,6 @@ namespace Ynooxpdf4me\API\Traits\Utility;
 
 /**
  * The chained parameters trait which has helper methods for getting the parameters passed through chaining.
- * An example would be a call `$client->ticket(2)->comments(3)->author();` would create an Author object with
- * chained parameters (An Array):
- *  [
- *      'Ynooxpdf4me\API\Tickets' => 2,
- *      'Ynooxpdf4me\API\Comments' => 3
- *  ]
- * @package Ynooxpdf4me\API
  */
 
 trait ChainedParametersTrait
@@ -63,11 +56,6 @@ trait ChainedParametersTrait
 
     /**
      * A helper method to add the chained parameters to the existing parameters.
-     *
-     * @param array $params The existing parameters
-     * @param array $map    An array describing what parameter key corresponds to which classId
-     *                      normal usage would be ['id' => $this::class]
-     *
      * @return array
      */
     public function addChainedParametersToParams($params, $map)

@@ -47,7 +47,7 @@ class Http
             ],
             $options
         );
-        
+       
 
         $headers = array_merge([
             'Accept'       => 'application/json',
@@ -60,9 +60,8 @@ class Http
         );
         $requestOptions = [];
 
-        if (! empty($options['multipart'])) {
-            $request                     = $request->withoutHeader('Content-Type');
-            $requestOptions['multipart'] = $options['multipart'];
+         if (! empty($options['multipart'])) {
+            $request['multipart'] = $options['multipart'];
         } elseif (! empty($options['postFields'])) {
             $request = $request->withBody(\GuzzleHttp\Psr7\stream_for(json_encode($options['postFields'])));
         } elseif (! empty($options['file'])) {
@@ -73,7 +72,6 @@ class Http
                 $request    = $request->withBody($fileStream);
             }
         }
-
         if (! empty($options['queryParams'])) {
             foreach ($options['queryParams'] as $queryKey => $queryValue) {
                 $uri     = $request->getUri();
@@ -106,5 +104,40 @@ class Http
         }
 
         return json_decode($response->getBody()->getContents());
+    }
+    
+    
+    
+    /**
+     * 
+     * @param \Ynooxpdf4me\API\HttpClient $client
+     * @param type $endPoint
+     * @param type $options
+     * @return type
+     * @throws ApiResponseException
+     */
+    public static function upload(
+        HttpClient $client,
+        $endPoint,
+        $options = []
+    ) {
+
+        $headers = array_merge([
+            'Accept'       => 'application/json',
+        ], $client->getHeaders());
+        try {
+            
+            $response = $client->guzzle->request($options['method'],
+                    $client->getApiUrl() . $client->getApiBasePath() . $endPoint,
+                    [
+                     'headers'=>$headers,  
+                     'multipart'=>$options['multipart']   
+                    ]);
+            
+        } catch (RequestException $e) {
+            $requestException = RequestException::create($e->getRequest(), $e->getResponse(), $e);
+            throw new ApiResponseException($requestException);
+        } 
+        return $response->getBody()->getContents();
     }
 }

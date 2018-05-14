@@ -17,5 +17,15 @@ class CustomException extends \Exception
     public function __construct($message, $code = 0, \Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
+        $this->errorDetails = $message;
+    }
+    
+    /**
+     * Returns an array of error fields with descriptions.
+     * @return array
+     */
+    public function getErrorDetails()
+    {
+        return $this->errorDetails;
     }
 }

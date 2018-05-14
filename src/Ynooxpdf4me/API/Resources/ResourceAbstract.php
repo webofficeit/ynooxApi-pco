@@ -79,12 +79,6 @@ abstract class ResourceAbstract
     /**
      * This returns the valid relations of this resource. Definition of what is allowed to chain after this resource.
      * Make sure to add in this method when adding new sub resources.
-     * Example:
-     *    $client->ticket()->comments();
-     *    Where ticket would have a comments as a valid sub resource.
-     *    The array would look like:
-     *      ['comments' => '\Ynooxpdf4me\API\Resources\TicketComments']
-     *
      * @return array
      */
     public static function getValidSubResources()
@@ -101,9 +95,6 @@ abstract class ResourceAbstract
     {
         $namespacedClassName = get_class($this);
         $resourceName        = join('', array_slice(explode('\\', $namespacedClassName), -1));
-
-        // This converts the resource name from camel case to underscore case.
-        // e.g. MyClass => my_class
         $underscored = strtolower(preg_replace('/(?<!^)([A-Z])/', '_$1', $resourceName));
 
         return strtolower($underscored);
@@ -245,7 +236,7 @@ abstract class ResourceAbstract
      */
     public function getRoute($name, array $params = [])
     {
-        //print_r($this->routes); exit();
+        
         if (! isset($this->routes[$name])) {
             throw new RouteException('Route not found.');
         }

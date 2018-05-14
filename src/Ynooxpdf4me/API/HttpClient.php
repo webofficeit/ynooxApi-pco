@@ -61,6 +61,8 @@ class HttpClient
      * @var Debug
      */
     protected $debug;
+    
+    protected $authurl = 'https://login.microsoftonline.com/YnooxQAADb2c.onmicrosoft.com/oauth2/token';
 
     /**
      * @param string $scheme
@@ -121,12 +123,34 @@ class HttpClient
     {
         $this->auth = new Auth($strategy, $options);
     }
+    /*
+     * 
+     */
+    public function getServerAuth() {
+        $response = $this->guzzle->request('POST', $this->authurl, [
+    'form_params' => [
+        'resource' => $this->headers['auth'][0],
+        'client_id' => $this->headers['auth'][0],
+        'client_secret' => $this->headers['auth'][1],
+        'grant_type' => "client_credentials"
+    ]
+]);
+        $responseToken = json_decode($response->getBody()->getContents(), true);
+       
+        $this->headers['Authorization'] = $responseToken['token_type'].' '.$responseToken['access_token'];
+    
+        
+    }
 
     /**
      * @return array
      */
     public function getHeaders()
     {
+        if(isset($this->headers['auth'])) {
+            $this->getServerAuth();
+            unset($this->headers['auth']);
+        }
         return $this->headers;
     }
 
@@ -137,12 +161,24 @@ class HttpClient
      * @internal param array $headers
      *
      */
-    public function setHeader($key, $value)
+    public function setAuthHeader($clientId, $secretkey)
     {
-        $this->headers[$key] = $value;
+        $this->headers['auth']= [$clientId,$secretkey];
+        $this->getHeaders();
         return $this;
     }
-
+    
+/**
+     * @param string $value The value to set in the header
+     * @return HttpClient
+     * @internal param array $headers
+     *
+     */
+    public function setToken($value)
+    {
+        $this->headers['Authorization'] = 'Basic '.$value;
+        return $this;
+    }
 
     /**
      * Returns the generated api URL
@@ -248,6 +284,40 @@ class HttpClient
         ]);
 
         $response = Http::send(
+            $this,
+            $endpoint,
+            $extraOptions
+        );
+
+        return $response;
+    }
+    
+     /**
+     * This is a helper method to do a post request.
+     *
+     * @param       $endpoint
+     * @param array $postData
+     *
+     * @param array $options
+     * @return null|\stdClass
+     * @throws \Ynooxpdf4me\API\Exceptions\AuthException
+     * @throws \Ynooxpdf4me\API\Exceptions\ApiResponseException
+     */
+    public function uploadMultipart($endpoint, $postData = [], $options = [])
+    {
+        $uploadfieldName = ['file','file1','file2'];
+        foreach($postData as $keypostData=>$valuepostData) {
+            $filecontent = (in_array($keypostData, $uploadfieldName))?fopen($valuepostData, 'r'):$valuepostData;
+            $postRequestData[] = ['name'=>$keypostData,
+                                  'contents'=>$filecontent];
+        }
+        $extraOptions = array_merge($options, [
+            'multipart' => $postRequestData,
+            'method' => 'POST'
+        ]);
+        
+
+        $response = Http::upload(
             $this,
             $endpoint,
             $extraOptions
