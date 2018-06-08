@@ -14,6 +14,7 @@ use Ynooxpdf4me\API\Middleware\RetryHandler;
 use Ynooxpdf4me\API\Resources\Core\Pdf4me;
 use Ynooxpdf4me\API\Traits\Utility\InstantiatorTrait;
 use Ynooxpdf4me\API\Utilities\Auth;
+use Ynooxpdf4me\API\Exceptions\CustomException;
 
 /**
  * Client class, base level access
@@ -365,5 +366,20 @@ class HttpClient
         );
 
         return $response;
+    }
+
+    /**
+     * @param string $filePath Name of file
+     * @return string
+     *
+     */
+    public function getFileData($filePath)
+    {
+        if (!file_exists($filePath)) {
+            throw new CustomException('File ' . $filePath . ' could not be found');
+        }
+        $b64Doc = chunk_split(base64_encode(file_get_contents($filePath)));
+        
+        return $b64Doc;
     }
 }
