@@ -100,7 +100,7 @@ class HttpClient
     public static function getValidSubResources()
     {
         return [
-            'Pdf4me'                    => Pdf4me::class,
+            'pdf4me'                    => Pdf4me::class,
         ];
     }
 
