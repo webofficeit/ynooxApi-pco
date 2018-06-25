@@ -1,5 +1,5 @@
 {
-    "name": "ynooxpdf4me/ynooxpdf4me_api_client_php",
+    "name": "pdf4me/pdf4me_api_client_php",
     "description": "Api wrapper ynoox",
     "homepage": "https://github.com/webofficeit/ynooxApi-pco",
     "minimum-stability": "dev",
@@ -17,7 +17,7 @@
   },
   "autoload": {
     "psr-0": {
-      "Ynooxpdf4me\\API\\": "src/"
+      "Pdf4me\\API\\": "src/"
     }
   }
 }
