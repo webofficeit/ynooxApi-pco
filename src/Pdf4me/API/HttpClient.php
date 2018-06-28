@@ -63,7 +63,7 @@ class HttpClient
      */
     protected $debug;
     
-    protected $authurl = 'https://login.microsoftonline.com/QAADb2c.onmicrosoft.com/oauth2/token';
+    protected $authurl = 'https://login.microsoftonline.com/devynooxlive.onmicrosoft.com/oauth2/token';
 
     /**
      * @param string $scheme
