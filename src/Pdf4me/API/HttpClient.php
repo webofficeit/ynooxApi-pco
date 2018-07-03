@@ -290,7 +290,7 @@ class HttpClient
             $extraOptions
         );
         // to check whether docLogLevel= 3
-        if((!empty($response))&&($response->document->docLogs)) {
+        if((!empty($response))&&((isset($response->document))&&($response->document->docLogs))&&((isset($response->documents))&&($response->documents->docLogs))) {
             $this->validateResDocData($response->document->docLogs);
         }
 
