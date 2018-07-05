@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit
+        bootstrap="tests/bootstrap.php"
+        colors="true"
+        backupGlobals="false"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        >
+    <php>
+        <env name="OAUTH_TOKEN" value="auth_token"/>
+        <env name="ClientId" value="client-id"/>
+        <env name="SecretKey" value="secret-key"/>
+        <env name="AccessType" value="token"/>
+
+    </php>
+
+    <testsuites>
+        <testsuite name="Pdf4me API Live Test Suites">
+            <directory>./tests/Pdf4me/API/LiveTests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
