@@ -43,6 +43,7 @@ $token     = "6fghwiIBWbGkBMo1mRDMuVwkw1EPsNhjdS"; // replace this with your tok
 $client->setToken($token);
 
 // using clientid and secretkey for Authentication
+$authurl = "https://******.88888.com/******.******.com/*****/*****"
 $clientid = 'edghj@-gkdv-fgffg#-hsokl-fg@ghn'; // replace this with your clientid
 $secretkey = 'dgf4567@dfb'; // replace this with your secretkey
 $client->setAuthHeader($clientid,$secretkey);
