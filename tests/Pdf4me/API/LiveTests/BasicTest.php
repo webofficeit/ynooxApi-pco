@@ -60,7 +60,7 @@ abstract class BasicTest extends \PHPUnit_Framework_TestCase
             $this->client->setToken($this->oAuthToken);
         }
         else {
-            $this->client->setAuthHeader($this->authurl, $this->clientId, $this->secretKey);
+            $this->client->setAuthHeader($this->clientId, $this->secretKey, $this->authurl);
         }
         
     }
