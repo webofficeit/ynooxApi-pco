@@ -46,7 +46,7 @@ $client->setToken($token);
 $authurl = "https://******.88888.com/******.******.com/*****/*****"
 $clientid = 'edghj@-gkdv-fgffg#-hsokl-fg@ghn'; // replace this with your clientid
 $secretkey = 'dgf4567@dfb'; // replace this with your secretkey
-$client->setAuthHeader($clientid,$secretkey);
+$client->setAuthHeader($authurl,$clientid,$secretkey);
 
 # The pdf4meClient object delivers the necessary authentication when instantiating the different pdf4meClients such as for instance Merge
 
