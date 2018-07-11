@@ -32,6 +32,7 @@ abstract class BasicTest extends \PHPUnit_Framework_TestCase
     /**
     * @var string
     */
+    protected $authurl;
 
     /**
      * {@inheritdoc}
@@ -42,6 +43,7 @@ abstract class BasicTest extends \PHPUnit_Framework_TestCase
         $this->clientId     = getenv('ClientId');
         $this->secretKey     = getenv('SecretKey');
         $this->accessType     = getenv('AccessType');
+        $this->authurl     = getenv('OAUTH_URL');
         
 
         parent::__construct($name, $data, $dataName);
@@ -58,7 +60,7 @@ abstract class BasicTest extends \PHPUnit_Framework_TestCase
             $this->client->setToken($this->oAuthToken);
         }
         else {
-            $this->client->setAuthHeader($this->clientId, $this->secretKey);
+            $this->client->setAuthHeader($this->authurl, $this->clientId, $this->secretKey);
         }
         
     }

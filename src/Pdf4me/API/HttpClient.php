@@ -63,7 +63,7 @@ class HttpClient
      */
     protected $debug;
     
-    protected $authurl = 'https://login.microsoftonline.com/devynooxlive.onmicrosoft.com/oauth2/token';
+    protected $authurl = '';
 
     /**
      * @param string $scheme
@@ -128,6 +128,7 @@ class HttpClient
      * 
      */
     public function getServerAuth() {
+        
         $response = $this->guzzle->request('POST', $this->authurl, [
     'form_params' => [
         'resource' => $this->headers['auth'][0],
@@ -162,8 +163,9 @@ class HttpClient
      * @internal param array $headers
      *
      */
-    public function setAuthHeader($clientId, $secretkey)
+    public function setAuthHeader($authurl, $clientId, $secretkey)
     {
+        $this->authurl = $authurl;
         $this->headers['auth']= [$clientId,$secretkey];
         $this->getHeaders();
         return $this;
