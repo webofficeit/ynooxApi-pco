@@ -16,7 +16,7 @@ class SplitTest extends BasicTest
             [
                 "document"=> [
                     'name' => 'test.pdf',
-                        'docData' => $this->client->getFileData('D:\xampp\htdocs\MISC\sample.pdf')
+                        'docData' => $this->client->getFileData(__DIR__.'/testcase.pdf')
                 ],
                 "SplitAction"=> [
                     "splitAfterPage"=> 1
@@ -37,7 +37,7 @@ class SplitTest extends BasicTest
         $splitPdfByPageNr = $this->client->pdf4me()->splitByPageNr(
             [
                 "pageNr"=> 1,
-                "file" => 'D:\xampp\htdocs\MISC\sample.pdf'
+                "file" => __DIR__.'/testcase.pdf'
             ]
         );
         $this->assertTrue(is_string($splitPdfByPageNr), 'Should return a valid object.');
