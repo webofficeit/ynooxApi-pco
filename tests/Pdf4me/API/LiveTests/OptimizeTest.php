@@ -16,7 +16,7 @@ class OptimizeTest extends BasicTest
             [
                 'document'=> ['jobId' => '00000000-0000-0000-0000-000000000000',
                 'name' => 'Scan-Shon-Agrmnt.pdf',
-                'docData' => $this->client->getFileData('D:\xampp\htdocs\MISC\sample.pdf')
+                'docData' => $this->client->getFileData('/opt/lampp/htdocs/ynoox/Wazhir BRD.pdf')
                 ],
             'optimizeAction' => [
                 'profile' => 'Max',
@@ -36,7 +36,7 @@ class OptimizeTest extends BasicTest
         $optimizePdfByProfile = $this->client->pdf4me()->optimizeByProfile(
             [
                 "profile"=> "default",
-                "file" => 'D:\xampp\htdocs\MISC\sample.pdf'
+                "file" => '/opt/lampp/htdocs/ynoox/Wazhir BRD.pdf'
             ]
         );
         $this->assertTrue(is_string($optimizePdfByProfile), 'Should return a valid object.');

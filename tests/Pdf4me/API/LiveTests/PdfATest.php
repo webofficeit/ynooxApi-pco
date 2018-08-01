@@ -16,7 +16,7 @@ class PdfATest extends BasicTest
             [
                 "document"=> [
                     'name' => 'test.pdf',
-                    'docData' => $this->client->getFileData('D:\xampp\htdocs\MISC\sample.pdf')
+                    'docData' => $this->client->getFileData('/opt/lampp/htdocs/ynoox/Wazhir BRD.pdf')
                 ],
                 "pdfAAction"=> [
                     "compliance"=> "pdfa1b"
@@ -34,7 +34,7 @@ class PdfATest extends BasicTest
         $createPdfAFile = $this->client->pdf4me()->createPdfA(
             [
                 "pdfCompliance"=> "pdfa1b",
-                "file" => 'D:\xampp\htdocs\MISC\sample.pdf'
+                "file" => '/opt/lampp/htdocs/ynoox/Wazhir BRD.pdf'
             ]
         );
         $this->assertTrue(is_string($createPdfAFile), 'Should return a valid object.');

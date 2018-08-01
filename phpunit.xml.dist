@@ -8,11 +8,11 @@
         convertWarningsToExceptions="true"
         >
     <php>
-        <env name="OAUTH_TOKEN" value="auth_token"/>
+         <env name="OAUTH_TOKEN" value="auth_token"/>
         <env name="OAUTH_URL" value="auth_url"/>
         <env name="ClientId" value="client-id"/>
         <env name="SecretKey" value="secret-key"/>
-        <env name="AccessType" value="token"/>
+	<env name="AccessType" value="token"/>
 
     </php>
 
