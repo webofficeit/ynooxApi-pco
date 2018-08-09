@@ -46,12 +46,12 @@ class Pdf4me extends ResourceAbstract {
 
         $this->setRoutes([
             'jobConfig' => 'job/jobConfigs',
-            'pdfOptimize' => 'Optimize/Optimize',
+            'optimize' => 'Optimize/Optimize',
             'pdfA'=>'PdfA/PdfA',
-            'pdfMerge'=>'Merge/Merge',
+            'merge'=>'Merge/Merge',
             'createImages'=> 'Image/CreateImages',
-            'splitPdf'=>'Split/Split',
-            'stampPdf'=>'Stamp/Stamp',
+            'split'=>'Split/Split',
+            'stamp'=>'Stamp/Stamp',
             'getDocuments'=>'Document/GetDocuments',
             'convertToPdf'=>'Convert/ConvertToPdf',
             'getContentDocument'=>'Document/GetDocument',
@@ -82,7 +82,7 @@ class Pdf4me extends ResourceAbstract {
      */
     public function convertFileToPdf(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
-         $this->checkValidationSchemaGetData($params,$route,'post');
+         $this->checkValidationSchemaGetData($params,$route,'post','convertFileToPdf');
         return $this->client->uploadMultipart(
                         $route, $params
         );   
@@ -96,7 +96,7 @@ class Pdf4me extends ResourceAbstract {
     public function textStamp(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','textStamp');
         return $this->client->uploadMultipart(
                         $route, $params
         );   
@@ -110,7 +110,7 @@ class Pdf4me extends ResourceAbstract {
     public function splitByPageNr(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','splitByPageNr');
         return $this->client->uploadMultipart(
                         $route, $params
         );    
@@ -124,7 +124,7 @@ class Pdf4me extends ResourceAbstract {
     public function createPdfA(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','createPdfA');
         return $this->client->uploadMultipart(
                         $route, $params
         );   
@@ -139,7 +139,7 @@ class Pdf4me extends ResourceAbstract {
     public function optimizeByProfile(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','optimizeByProfile');
         return $this->client->uploadMultipart(
                         $route, $params
         );    
@@ -154,7 +154,7 @@ class Pdf4me extends ResourceAbstract {
     public function recognizeDocument(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','recognizeDocument');
         return $this->client->post(
                         $route, $params
         );   
@@ -169,7 +169,7 @@ class Pdf4me extends ResourceAbstract {
     public function merge2Pdfs(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','merge2Pdfs');
         return $this->client->uploadMultipart(
                         $route, $params
         );     
@@ -210,7 +210,7 @@ class Pdf4me extends ResourceAbstract {
     public function saveJobConfig(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','saveJobConfig');
         return $this->client->post(
                         $route, $params
         );   
@@ -225,7 +225,7 @@ class Pdf4me extends ResourceAbstract {
     public function runJob(array $params) {
         $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','runJob');
         return $this->client->post(
                         $route, $params
         ); 
@@ -239,7 +239,7 @@ class Pdf4me extends ResourceAbstract {
     public function createArchiveJobConfig(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','createArchiveJobConfig');
         return $this->client->post(
                         $route, $params
         );   
@@ -254,7 +254,7 @@ class Pdf4me extends ResourceAbstract {
     public function createThumbnail(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','createThumbnail');
          return $this->client->uploadMultipart(
                         $route, $params
         );   
@@ -269,7 +269,7 @@ class Pdf4me extends ResourceAbstract {
     public function extract(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','extract');
         return $this->client->post(
                         $route, $params
         );   
@@ -284,7 +284,7 @@ class Pdf4me extends ResourceAbstract {
     public function extractPages(array $params) {
       $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','extractPages');
          return $this->client->uploadMultipart(
                         $route, $params
         ); 
@@ -300,7 +300,7 @@ class Pdf4me extends ResourceAbstract {
     public function produceDocuments(array $params) {
        $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','produceDocuments');
         return $this->client->post(
                         $route, $params
         );  
@@ -315,7 +315,7 @@ class Pdf4me extends ResourceAbstract {
     public function dropDocument(array $params) {
        $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','dropDocument');
         return $this->client->post(
                         $route, $params
         );  
@@ -330,7 +330,7 @@ class Pdf4me extends ResourceAbstract {
     public function getContentDocument(array $params) {
        $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','getContentDocument');
         return $this->client->post(
                         $route, $params
         );  
@@ -345,7 +345,7 @@ class Pdf4me extends ResourceAbstract {
     public function convertToPdf(array $params) {
        $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','convertToPdf');
         
         return $this->client->post(
                         $route, $params
@@ -360,7 +360,7 @@ class Pdf4me extends ResourceAbstract {
      */
     public function getDocuments(array $params){
         $route = $this->getRoute(__FUNCTION__);
-        $this->checkValidationSchemaGetData($params,$route,'get');
+        $this->checkValidationSchemaGetData($params,$route,'get','getDocuments');
        return $this->client->get(
                $route, $params);
     }
@@ -370,10 +370,10 @@ class Pdf4me extends ResourceAbstract {
      * 
      * return @array
      */
-    public function stampPdf(array $params) {
+    public function stamp(array $params) {
         $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','stamp');
         return $this->client->post(
                         $route, $params
         );  
@@ -386,10 +386,10 @@ class Pdf4me extends ResourceAbstract {
      * 
      * return @array
      */
-    public function splitPdf(array $params) {
+    public function split(array $params) {
        $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','split');
         return $this->client->post(
                         $route, $params
         );  
@@ -404,7 +404,7 @@ class Pdf4me extends ResourceAbstract {
     public function createImages(array $params) {
        $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','createImages');
         return $this->client->post(
                         $route, $params
         ); 
@@ -417,10 +417,10 @@ class Pdf4me extends ResourceAbstract {
      * return @array
      * 
      */
-    public function pdfOptimize(array $params) {
+    public function optimize(array $params) {
         $route = $this->getRoute(__FUNCTION__, $params);
 
-        $this->checkValidationSchemaGetData($params,$route,'post');
+        $this->checkValidationSchemaGetData($params,$route,'post','optimize');
         return $this->client->post(
                         $route, $params
         );
@@ -434,7 +434,7 @@ class Pdf4me extends ResourceAbstract {
      */
     public function pdfA(array $params) {
          $route = $this->getRoute(__FUNCTION__, $params);
-         $this->checkValidationSchemaGetData($params,$route,'post');
+         $this->checkValidationSchemaGetData($params,$route,'post','pdfA');
          return $this->client->post(
                         $route, $params
         );
@@ -446,9 +446,9 @@ class Pdf4me extends ResourceAbstract {
      * 
      * return @array
      */
-    public function pdfMerge(array $params) {
+    public function merge(array $params) {
          $route = $this->getRoute(__FUNCTION__, $params);
-         $this->checkValidationSchemaGetData($params,$route,'post');
+         $this->checkValidationSchemaGetData($params,$route,'post', 'merge');
          return $this->client->post(
                         $route, $params
         );

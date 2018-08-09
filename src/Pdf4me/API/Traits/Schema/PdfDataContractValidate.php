@@ -16,7 +16,8 @@ trait PdfDataContractValidate {
      */
     protected function checkValidationSchemaData($params,$route, $req_type, $currentSchema = null) {
          $schemaData = $this->setDataContractSchema($params, $route, $req_type)[$route];
-        if (is_array($schemaData)) {
+         
+         if (is_array($schemaData)) {
             foreach ($schemaData as $keyschema => $schemavalue) {
                 if (array_key_exists($keyschema,$params)) {
                     $this->getsubContracts($schemavalue, $params, $keyschema);
@@ -31,6 +32,8 @@ trait PdfDataContractValidate {
     }
     
     public function hasKey($indexkey, $keyschema, $subkeyparam, $params, $superIndex = null, $primarysuperIndex = null) {
+        //echo "<pre>".$subkeyparam;
+        //is_array($params); exit();
         if($primarysuperIndex!='') {
             return isset($params[$primarysuperIndex][$superIndex][$indexkey][$keyschema][$subkeyparam]) ? $params[$primarysuperIndex][$superIndex][$indexkey][$keyschema][$subkeyparam] : null;
         }
@@ -45,7 +48,25 @@ trait PdfDataContractValidate {
             return isset($params[$indexkey][$keyschema]) ? $params[$indexkey][$keyschema] : 4;
         }
         elseif ($indexkey == '') {
-             
+            
+            if(!(isset($params[$keyschema][$subkeyparam]))&&(isset($params[$keyschema]))&&(is_array($params[$keyschema]))) {
+              // echo "<pre>"; print_r($params[$keyschema]); exit();
+                foreach($params[$keyschema] as $keyparam=>$paramvalues) {
+                   // echo "<pre>".$subkeyparam."---".$keyparam."$$$".'';
+                    if(isset($paramvalues[$subkeyparam])) {
+                       // echo "aa".$paramvalues[$subkeyparam]; 
+                        return $paramvalues[$subkeyparam];
+                    }
+                    else {
+                        //echo "qq".$subkeyparam."%%%".$keyparam;
+                        //echo "<pre>".$subkeyparam;print_r($keyparam); exit();
+                        return ($subkeyparam===$keyparam)?$paramvalues:null;
+                    }
+                    //echo "<pre>";print_r($paramvalues); exit();
+                    //return isset($paramvalues[$subkeyparam]) ? $paramvalues[$subkeyparam] : null;
+                }
+            }
+            else
              return isset($params[$keyschema][$subkeyparam]) ? $params[$keyschema][$subkeyparam] : null;
         }
         else {
@@ -55,8 +76,9 @@ trait PdfDataContractValidate {
     }
 
     public function setRequiredValidate($subparamvalue,$keyschema) {
+       // echo "<pre>"; print_r($keyschema);
         if ((isset($subparamvalue['required'])&&($subparamvalue['required'] == 1)) || ((isset($keyschema['required'])) && $keyschema['required'] == 1)) {
-            throw new CustomException($keyschema . ' field are required');
+            throw new CustomException('The '.$keyschema . ' cannot be None');
         }
     }
     
@@ -95,7 +117,6 @@ trait PdfDataContractValidate {
                         $this->getsubContracts($subparamvalue, $params, $subkeyparam, $keyschema);
                         
                     } else {
-                        
                         $this->setRequiredValidate($subparamvalue,$keyschema);
                         
                     }
@@ -107,6 +128,8 @@ trait PdfDataContractValidate {
      */
     public function checkIfRequired($isParamExit,$schemavalue,  $keyschema) {
         if ($isParamExit == null) {
+            //echo "q111";
+            //echo "<pre>"; print_r($keyschema);
                     $this->setRequiredValidate($schemavalue,$keyschema);
                     }
     }
@@ -115,10 +138,10 @@ trait PdfDataContractValidate {
      * get the schema with reference
      */
     public function getsubContracts($schemavalue, &$params, $keyschema, $indexkey = null, $superIndex = '',$primarysuperIndex='') {
-         
+        
         if (is_array($schemavalue)) {
             foreach ($schemavalue as $subkeyparam => $subparamvalue) {
-          
+                
                 if (is_array($subparamvalue) && (!isset($subparamvalue['parameters']))) {
                  
                 $this->getRefMultiSchema($subparamvalue, $params, $subkeyparam, $keyschema,$indexkey,$superIndex,$primarysuperIndex);    
@@ -126,7 +149,7 @@ trait PdfDataContractValidate {
                 } 
                 elseif (($subkeyparam=='required') && ($subparamvalue == 1)) {
                     $isParamExit = $this->hasKey($indexkey, $keyschema, $subkeyparam, $params, $superIndex,$primarysuperIndex);
-                    $this->checkIfRequired($isParamExit,$schemavalue,  $schemavalue);
+                    $this->checkIfRequired($isParamExit,$schemavalue,  $keyschema);
                     
                     
                     }
@@ -134,19 +157,20 @@ trait PdfDataContractValidate {
                
                     $isParamExit = $this->hasKey($indexkey, $keyschema, $subkeyparam, $params, $superIndex,$primarysuperIndex);
                     
-                    
+                   // echo "index->".$indexkey."keyschema->".$keyschema."subkeyparam->".$subkeyparam."superIndex->".$superIndex."primarysuperIndex->".$primarysuperIndex; 
                     if (isset($subparamvalue['required'])&&($isParamExit == '')) {
                          
-                            throw new CustomException($subkeyparam . ' is required');
+                            throw new CustomException('The '.$keyschema.'.'.$subkeyparam . ' cannot be None');
                         }
                        
                     foreach ($subparamvalue['parameters'] as $keyfield => $fieldvalue) {
                        
                         if (($keyfield == 'required')&&($isParamExit == '')) {
-                            throw new CustomException($fieldvalue . ' is required');
+                            throw new CustomException('The '.$fieldvalue . ' cannot be None');
                         }
                         
                         if ($isParamExit != '') {
+                            //echo "jjjjj".$subkeyparam; exit();
                             $this->getParamaExceptions($keyfield,$fieldvalue,$isParamExit,$subkeyparam);
                             
 
@@ -158,6 +182,7 @@ trait PdfDataContractValidate {
     }
     
     public function getParamaExceptions($keyfield,$fieldvalue,$isParamExit,$subkeyparam) {
+
         switch ($keyfield) {
                                 case 'type':
                                    

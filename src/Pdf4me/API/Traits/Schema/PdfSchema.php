@@ -1,6 +1,7 @@
 <?php
 
 namespace Pdf4me\API\Traits\Schema;
+use Pdf4me\API\Exceptions\CustomException;
 
 /**
  * Trait ResourceName
@@ -49,6 +50,7 @@ trait PdfSchema {
         if (!empty($swaggerSchema)) {
             $endPoint = [];
             $endpoint_schema = $swaggerSchema[0]['paths']['/' . $this->router_path][$req_type];
+        
             foreach ($endpoint_schema as $paramkeyschema => $paramvalueschema) {
               
                 if (array_key_exists("parameters", $endpoint_schema)) {
@@ -56,6 +58,7 @@ trait PdfSchema {
                         //to set reference definition
                         if (isset($paramvalue['schema'])) {
                             $schemaref = $this->getRefString($paramvalue['schema']['$ref']);
+                            //echo $schemaref; exit();
                             $this->setRefSchema($schemaref, $swaggerSchema, $endPoint, $paramvalueschema, $paramkeyschema);
                         } else {
                             $this->setSchemaParameteres($paramvalue, $endPoint);
@@ -155,10 +158,9 @@ public function setRefSchema($schemaref, $swaggerSchema, &$endPoint, $paramvalue
     if ($refDef) {
         foreach ($refDef['properties'] as $refkey => $refvalue) {
               
-            
             $this->setRequiredIndex($refDef,$refkey,$primaryIndex,$currentTemp,$endPoint,$superIndex,$subsuperIndex);
             if (isset($refvalue['$ref'])) {
-              
+               
                 $subschemaref = $this->getRefString($refvalue['$ref']);
                 $this->setRefMultiSchema($subschemaref, $swaggerSchema, $endPoint, $paramvalueschema, $paramkeyschema, $refkey, $currentTemp,$superIndex,$primaryIndex);
 
@@ -212,8 +214,13 @@ public function checkParamTypeCasting($schemavalue,$keyschema,$reqField) {
 /*
  * 
  */
-public function checkValidationSchemaGetData($params,$route,$req_type) {
+public function checkValidationSchemaGetData($params,$route,$req_type,$methname=null) {
+    
+    if(count($params)==0) {
+        throw new CustomException('The '.$methname . ' cannot be None');
+    }
    $schemaData = $this->setDataContractSchema($params, $route, $req_type)[$route];
+  // echo "<pre>".$route; print_r($schemaData); exit();
    foreach ($schemaData as $keyschema => $schemavalue) {
             $schemaparam = isset($schemavalue['parameters'])?$schemavalue['parameters']:'';
             $param = isset($params[$keyschema])?$params[$keyschema]:'';
@@ -225,6 +232,7 @@ public function checkValidationSchemaGetData($params,$route,$req_type) {
             $this->checkParamTypeCasting($schemaparam,$keyschema,$param);
             }
             elseif(!isset($schemavalue['parameters'])) {
+                //echo "<pre>"; print_r($schemavalue); exit();
                 $this->getsubContracts($schemavalue, $params, $keyschema);
             }
    }
