@@ -238,5 +238,23 @@ public function checkValidationSchemaGetData($params,$route,$req_type,$methname=
    }
 }
 
+/*
 
+*/
+public function checkParamConditionValidate($params,$methname) {
+    
+    if($methname=='merge') {
+       if(!(isset($params['documents'][0]))||(count($params['documents'])<2)) {
+        throw new CustomException('The merge documents must contain at least two documents');
+       }
+    }
+    
+    if($methname=='stamp') {
+        if(!(isset($params['stampAction']['text']))&&(!(isset($params['stampAction']['image'])))) {
+            throw new CustomException('The image and text parameter of stampAction cannot both be None.');
+           }
+    }
+
+
+}
 }

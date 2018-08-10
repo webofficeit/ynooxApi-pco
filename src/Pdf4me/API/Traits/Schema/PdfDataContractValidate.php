@@ -170,8 +170,8 @@ trait PdfDataContractValidate {
                         }
                         
                         if ($isParamExit != '') {
-                            //echo "jjjjj".$subkeyparam; exit();
-                            $this->getParamaExceptions($keyfield,$fieldvalue,$isParamExit,$subkeyparam);
+                            //echo "jjjjj".$keyschema."aaa".$subkeyparam;
+                            $this->getParamaExceptions($keyfield,$fieldvalue,$isParamExit,$subkeyparam,$keyschema);
                             
 
                         }
@@ -181,40 +181,45 @@ trait PdfDataContractValidate {
         }
     }
     
-    public function getParamaExceptions($keyfield,$fieldvalue,$isParamExit,$subkeyparam) {
+    public function getParamaExceptions($keyfield,$fieldvalue,$isParamExit,$subkeyparam,$keyschema=null) {
 
         switch ($keyfield) {
                                 case 'type':
                                    
                                     if(($fieldvalue == 'integer')&&(!is_numeric($isParamExit))) {
-                                        throw new CustomException($subkeyparam . ' only allows integer values');
+                                        throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows integer values');
                                     }
                                     if(($fieldvalue == 'string')&&(!is_string($isParamExit))) {
-                                        throw new CustomException($subkeyparam . ' only allows string values');
+                                        throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows string values');
                                     }                                  
                                     if(($fieldvalue == 'upload')&&(!file_exists($isParamExit))) {
                                         throw new CustomException('File ' . $isParamExit . ' could not be found');
                                     }
                                    break;
                                 case 'enum':
-                                    
+                                   // echo "<pre>";print_r($isParamExit; exit();
                                     if (!in_array(strtolower($isParamExit), $fieldvalue)) {
-                                    throw new CustomException($subkeyparam . ' only allows these values'.json_encode($fieldvalue));
+                                    throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows these values'.json_encode($fieldvalue));
                                 }
                                 break;
                                 case 'items':
+                                    //echo "<pre>".$subkeyparam."--".$keyfield; print_r($isParamExit[0]);
+                                    //exit();
+                                    if(count($isParamExit)==0) {
+                                        throw new CustomException($keyschema.'.'.$subkeyparam . ' cannot be empty'); 
+                                    }
                                     if(($fieldvalue['type'] == 'integer')&& (!array_map("is_numeric", $isParamExit))) {
-                                       throw new CustomException($subkeyparam . ' only allows integer values'); 
+                                       throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows integer values'); 
                                     }
                                     if(($fieldvalue['type'] == 'string')&&(!array_map("is_string", $isParamExit))) {
-                                       throw new CustomException($subkeyparam . ' only allows string values'); 
+                                       throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows string values'); 
                                     }
 //                                    if(($fieldvalue == 'boolean')&&($isParamExit!='true'||$isParamExit!='false')) {
 //                                        throw new CustomException($subkeyparam . ' only allows boolean values');
 //                                    }
                                     
                                     if((isset($fieldvalue['enum']))&& !in_array(implode(',', array_map("strtolower", $isParamExit)), array_map("strtolower",$fieldvalue['enum']))) {
-                                        throw new CustomException($subkeyparam . ' only allows these values'.json_encode(array_map("strtolower",$fieldvalue['enum'])));
+                                        throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows these values'.json_encode(array_map("strtolower",$fieldvalue['enum'])));
                                     }
                                 break;    
                             }

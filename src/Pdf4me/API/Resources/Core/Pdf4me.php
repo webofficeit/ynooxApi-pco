@@ -374,6 +374,7 @@ class Pdf4me extends ResourceAbstract {
         $route = $this->getRoute(__FUNCTION__, $params);
 
         $this->checkValidationSchemaGetData($params,$route,'post','stamp');
+        $this->checkParamConditionValidate($params,'stamp');
         return $this->client->post(
                         $route, $params
         );  
@@ -449,6 +450,7 @@ class Pdf4me extends ResourceAbstract {
     public function merge(array $params) {
          $route = $this->getRoute(__FUNCTION__, $params);
          $this->checkValidationSchemaGetData($params,$route,'post', 'merge');
+         $this->checkParamConditionValidate($params,'merge');
          return $this->client->post(
                         $route, $params
         );
