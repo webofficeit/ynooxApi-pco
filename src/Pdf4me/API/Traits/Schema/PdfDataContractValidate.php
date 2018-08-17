@@ -32,8 +32,7 @@ trait PdfDataContractValidate {
     }
     
     public function hasKey($indexkey, $keyschema, $subkeyparam, $params, $superIndex = null, $primarysuperIndex = null) {
-        //echo "<pre>".$subkeyparam;
-        //is_array($params); exit();
+        
         if($primarysuperIndex!='') {
             return isset($params[$primarysuperIndex][$superIndex][$indexkey][$keyschema][$subkeyparam]) ? $params[$primarysuperIndex][$superIndex][$indexkey][$keyschema][$subkeyparam] : null;
         }
@@ -50,20 +49,18 @@ trait PdfDataContractValidate {
         elseif ($indexkey == '') {
             
             if(!(isset($params[$keyschema][$subkeyparam]))&&(isset($params[$keyschema]))&&(is_array($params[$keyschema]))) {
-              // echo "<pre>"; print_r($params[$keyschema]); exit();
+             
                 foreach($params[$keyschema] as $keyparam=>$paramvalues) {
-                   // echo "<pre>".$subkeyparam."---".$keyparam."$$$".'';
+                   
                     if(isset($paramvalues[$subkeyparam])) {
-                       // echo "aa".$paramvalues[$subkeyparam]; 
+                       
                         return $paramvalues[$subkeyparam];
                     }
                     else {
-                        //echo "qq".$subkeyparam."%%%".$keyparam;
-                        //echo "<pre>".$subkeyparam;print_r($keyparam); exit();
+                       
                         return ($subkeyparam===$keyparam)?$paramvalues:null;
                     }
-                    //echo "<pre>";print_r($paramvalues); exit();
-                    //return isset($paramvalues[$subkeyparam]) ? $paramvalues[$subkeyparam] : null;
+                    
                 }
             }
             else
@@ -76,7 +73,7 @@ trait PdfDataContractValidate {
     }
 
     public function setRequiredValidate($subparamvalue,$keyschema) {
-       // echo "<pre>"; print_r($keyschema);
+ 
         if ((isset($subparamvalue['required'])&&($subparamvalue['required'] == 1)) || ((isset($keyschema['required'])) && $keyschema['required'] == 1)) {
             throw new CustomException('The '.$keyschema . ' cannot be None');
         }
@@ -128,8 +125,7 @@ trait PdfDataContractValidate {
      */
     public function checkIfRequired($isParamExit,$schemavalue,  $keyschema) {
         if ($isParamExit == null) {
-            //echo "q111";
-            //echo "<pre>"; print_r($keyschema);
+            
                     $this->setRequiredValidate($schemavalue,$keyschema);
                     }
     }
@@ -157,7 +153,7 @@ trait PdfDataContractValidate {
                
                     $isParamExit = $this->hasKey($indexkey, $keyschema, $subkeyparam, $params, $superIndex,$primarysuperIndex);
                     
-                   // echo "index->".$indexkey."keyschema->".$keyschema."subkeyparam->".$subkeyparam."superIndex->".$superIndex."primarysuperIndex->".$primarysuperIndex; 
+                   
                     if (isset($subparamvalue['required'])&&($isParamExit == '')) {
                          
                             throw new CustomException('The '.$keyschema.'.'.$subkeyparam . ' cannot be None');
@@ -170,7 +166,7 @@ trait PdfDataContractValidate {
                         }
                         
                         if ($isParamExit != '') {
-                            //echo "jjjjj".$keyschema."aaa".$subkeyparam;
+                           
                             $this->getParamaExceptions($keyfield,$fieldvalue,$isParamExit,$subkeyparam,$keyschema);
                             
 
@@ -197,14 +193,13 @@ trait PdfDataContractValidate {
                                     }
                                    break;
                                 case 'enum':
-                                   // echo "<pre>";print_r($isParamExit; exit();
+                                  
                                     if (!in_array(strtolower($isParamExit), $fieldvalue)) {
                                     throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows these values'.json_encode($fieldvalue));
                                 }
                                 break;
                                 case 'items':
-                                    //echo "<pre>".$subkeyparam."--".$keyfield; print_r($isParamExit[0]);
-                                    //exit();
+                                    
                                     if(count($isParamExit)==0) {
                                         throw new CustomException($keyschema.'.'.$subkeyparam . ' cannot be empty'); 
                                     }

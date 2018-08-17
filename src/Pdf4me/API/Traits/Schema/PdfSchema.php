@@ -58,7 +58,7 @@ trait PdfSchema {
                         //to set reference definition
                         if (isset($paramvalue['schema'])) {
                             $schemaref = $this->getRefString($paramvalue['schema']['$ref']);
-                            //echo $schemaref; exit();
+                           
                             $this->setRefSchema($schemaref, $swaggerSchema, $endPoint, $paramvalueschema, $paramkeyschema);
                         } else {
                             $this->setSchemaParameteres($paramvalue, $endPoint);
@@ -220,7 +220,6 @@ public function checkValidationSchemaGetData($params,$route,$req_type,$methname=
         throw new CustomException('The '.$methname . ' cannot be None');
     }
    $schemaData = $this->setDataContractSchema($params, $route, $req_type)[$route];
-  // echo "<pre>".$route; print_r($schemaData); exit();
    foreach ($schemaData as $keyschema => $schemavalue) {
             $schemaparam = isset($schemavalue['parameters'])?$schemavalue['parameters']:'';
             $param = isset($params[$keyschema])?$params[$keyschema]:'';
@@ -232,7 +231,7 @@ public function checkValidationSchemaGetData($params,$route,$req_type,$methname=
             $this->checkParamTypeCasting($schemaparam,$keyschema,$param);
             }
             elseif(!isset($schemavalue['parameters'])) {
-                //echo "<pre>"; print_r($schemavalue); exit();
+               
                 $this->getsubContracts($schemavalue, $params, $keyschema);
             }
    }
