@@ -36,21 +36,24 @@ require 'vendor/autoload.php';
 
 use Pdf4me\API\HttpClient as pdf4meAPI;
 
-$client = new pdf4meAPI();
+$schema='https';
+$apiurl='api**.***.com';
+$client = new pdf4meAPI($schema,$apiurl); // were $schema & $apiurl are optional
+
 
 // using token for Authentication
 $token     = "6fghwiIBWbGkBMo1mRDMuVwkw1EPsNhjdS"; // replace this with your token
 $client->setToken($token);
 
 // using clientid and secretkey for Authentication
-$apiurl = "https://******.88888.com/******.******.com/*****/*****"
+$autturl = "https://******.88888.com/******.******.com/*****/*****"
 $clientid = 'edghj@-gkdv-fgffg#-hsokl-fg@ghn'; // replace this with your clientid
 $secretkey = 'dgf4567@dfb'; // replace this with your secretkey
-$client->setAuthHeader($clientid,$secretkey,$apiurl);//were $apiurl is optional 
+$client->setAuthHeader($clientid,$secretkey,$autturl);//were $autturl is optional 
 
 # The pdf4meClient object delivers the necessary authentication when instantiating the different pdf4meClients such as for instance Merge
 
-$pdfMerge = $client->pdf4me()->pdfMerge([
+$pdfMerge = $client->pdf4me()->merge([
           "documents"=> [
               [
 		'name' => 'test1.pdf',
