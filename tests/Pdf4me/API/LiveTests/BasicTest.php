@@ -41,9 +41,11 @@ abstract class BasicTest extends \PHPUnit_Framework_TestCase
     {
         $this->oAuthToken   = getenv('OAUTH_TOKEN');
         $this->clientId     = getenv('ClientId');
-        $this->secretKey     = getenv('SecretKey');
-        $this->accessType     = getenv('AccessType');
-        $this->authurl     = getenv('OAUTH_URL');
+        $this->secretKey    = getenv('SecretKey');
+        $this->accessType   = getenv('AccessType');
+        $this->authurl      = getenv('OAUTH_URL');
+        $this->apischema    = getenv('ApiSchema');
+        $this->apihost      = getenv('ApiHost');
         
 
         parent::__construct($name, $data, $dataName);
@@ -55,7 +57,7 @@ abstract class BasicTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->client = new HttpClient();
+        $this->client = new HttpClient($this->apischema,$this->apihost);
         if($this->accessType=='token') {
             $this->client->setToken($this->oAuthToken);
         }

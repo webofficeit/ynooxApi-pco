@@ -72,8 +72,8 @@ class HttpClient
      */
 
     public function __construct(
-        $scheme = "https",
-        $hostname = "api-dev.Pdf4me.com",
+        $scheme = "",
+        $hostname = "",
         $guzzle = null
     ) {
         if (is_null($guzzle)) {
@@ -86,9 +86,9 @@ class HttpClient
             $this->guzzle = $guzzle;
         }
 
-        $this->hostname  = $hostname;
-        $this->scheme    = $scheme;
-        $this->apiUrl    = "$scheme://$hostname/";
+        $this->hostname  = ($hostname=='')?"api-dev.Pdf4me.com":$hostname;
+        $this->scheme    = ($scheme=='')?"https":$scheme;
+        $this->apiUrl    = "$this->scheme://$this->hostname/";
         $this->debug      = new Debug();
     }
 

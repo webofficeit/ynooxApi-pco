@@ -13,7 +13,7 @@ class OptimizeTest extends BasicTest
     public function testpdfOptimize()
     {
         
-        $pdfOptimize = $this->client->pdf4me()->pdfOptimize(
+        $pdfOptimize = $this->client->pdf4me()->optimize(
             [
                 'document'=> ['jobId' => '00000000-0000-0000-0000-000000000000',
                 'name' => 'Scan-Shon-Agrmnt.pdf',

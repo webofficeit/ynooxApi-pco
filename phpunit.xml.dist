@@ -10,9 +10,11 @@
     <php>
          <env name="OAUTH_TOKEN" value="auth_token"/>
         <env name="OAUTH_URL" value=""/>
-        <env name="ClientId" value="client-id"/>
-        <env name="SecretKey" value="secret-key"/>
-	<env name="AccessType" value=""/>
+        <env name="ClientId" value=""/>
+        <env name="SecretKey" value=""/>
+	    <env name="AccessType" value=""/><!-- change value of AccessType to 'token', if using OAUTH_TOKEN for Authentication -->
+        <env name="ApiSchema" value=""/>
+        <env name="ApiHost" value=""/>
 
     </php>
 

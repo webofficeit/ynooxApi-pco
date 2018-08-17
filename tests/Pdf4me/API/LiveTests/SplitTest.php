@@ -12,13 +12,13 @@ class SplitTest extends BasicTest
      */
     public function testsplitPdf()
     {
-        $splitPdf = $this->client->pdf4me()->splitPdf(
+        $splitPdf = $this->client->pdf4me()->split(
             [
                 "document"=> [
                     'name' => 'test.pdf',
                         'docData' => $this->client->getFileData(__DIR__.'/testcase.pdf')
                 ],
-                "SplitAction"=> [
+                "splitAction"=> [
                     "splitAfterPage"=> 1
                 ],
                 "notification"=> [
