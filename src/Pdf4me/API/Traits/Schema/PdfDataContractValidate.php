@@ -72,10 +72,11 @@ trait PdfDataContractValidate {
                     }
     }
 
-    public function setRequiredValidate($subparamvalue,$keyschema) {
+    public function setRequiredValidate($subparamvalue,$keyschema, $indexkey = null) {
  
         if ((isset($subparamvalue['required'])&&($subparamvalue['required'] == 1)) || ((isset($keyschema['required'])) && $keyschema['required'] == 1)) {
-            throw new CustomException('The '.$keyschema . ' cannot be None');
+            $customText = ($indexkey!='')?$indexkey.'.'.$keyschema:$keyschema;
+            throw new CustomException('The '.$customText. ' cannot be none');
         }
     }
     
@@ -114,6 +115,7 @@ trait PdfDataContractValidate {
                         $this->getsubContracts($subparamvalue, $params, $subkeyparam, $keyschema);
                         
                     } else {
+                        
                         $this->setRequiredValidate($subparamvalue,$keyschema);
                         
                     }
@@ -123,10 +125,9 @@ trait PdfDataContractValidate {
     /*
      * check if required
      */
-    public function checkIfRequired($isParamExit,$schemavalue,  $keyschema) {
+    public function checkIfRequired($isParamExit,$schemavalue,  $keyschema, $indexkey = null) {
         if ($isParamExit == null) {
-            
-                    $this->setRequiredValidate($schemavalue,$keyschema);
+                    $this->setRequiredValidate($schemavalue,$keyschema, $indexkey);
                     }
     }
 
@@ -145,7 +146,7 @@ trait PdfDataContractValidate {
                 } 
                 elseif (($subkeyparam=='required') && ($subparamvalue == 1)) {
                     $isParamExit = $this->hasKey($indexkey, $keyschema, $subkeyparam, $params, $superIndex,$primarysuperIndex);
-                    $this->checkIfRequired($isParamExit,$schemavalue,  $keyschema);
+                    $this->checkIfRequired($isParamExit,$schemavalue,  $keyschema, $indexkey);
                     
                     
                     }
@@ -155,14 +156,15 @@ trait PdfDataContractValidate {
                     
                    
                     if (isset($subparamvalue['required'])&&($isParamExit == '')) {
-                         
-                            throw new CustomException('The '.$keyschema.'.'.$subkeyparam . ' cannot be None');
+                        $customText = $keyschema.'.'.$subkeyparam;    
+                        $this->checkParamConditionValidate($params, $this->current_methodname, $customText);
+                        throw new CustomException('The '.$customText. ' cannot be none');
                         }
                        
                     foreach ($subparamvalue['parameters'] as $keyfield => $fieldvalue) {
                        
                         if (($keyfield == 'required')&&($isParamExit == '')) {
-                            throw new CustomException('The '.$fieldvalue . ' cannot be None');
+                            throw new CustomException('The '.$fieldvalue . ' cannot be none');
                         }
                         
                         if ($isParamExit != '') {

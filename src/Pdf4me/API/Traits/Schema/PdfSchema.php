@@ -10,6 +10,7 @@ trait PdfSchema {
 
     protected $swaggerSchemaUrl = 'https://api-dev.Pdf4me.com/swagger/v1/swagger.json';
     protected $router_path='';
+    protected $current_methodname='';
 
     /*
      * to get schema from swagger api
@@ -219,6 +220,7 @@ public function checkValidationSchemaGetData($params,$route,$req_type,$methname=
     if(count($params)==0) {
         throw new CustomException('The '.$methname . ' cannot be None');
     }
+    $this->current_methodname = $methname;
    $schemaData = $this->setDataContractSchema($params, $route, $req_type)[$route];
    foreach ($schemaData as $keyschema => $schemavalue) {
             $schemaparam = isset($schemavalue['parameters'])?$schemavalue['parameters']:'';
@@ -240,7 +242,7 @@ public function checkValidationSchemaGetData($params,$route,$req_type,$methname=
 /*
 
 */
-public function checkParamConditionValidate($params,$methname) {
+public function checkParamConditionValidate($params,$methname,$customtext='') {
     
     if($methname=='merge') {
        if(!(isset($params['documents'][0]))||(count($params['documents'])<2)) {
@@ -252,6 +254,24 @@ public function checkParamConditionValidate($params,$methname) {
         if(!(isset($params['stampAction']['text']))&&(!(isset($params['stampAction']['image'])))) {
             throw new CustomException('The image and text parameter of stampAction cannot both be None.');
            }
+    }
+
+    if($methname=='optimize') {
+        if($customtext=='optimizeAction.useProfile') {
+            throw new CustomException('The '.$customtext.' must be set to true');
+        }
+    }
+
+    if($methname=='split') {
+        if($customtext=='splitAction.splitAfterPage') {
+            throw new CustomException('The '.$customtext.' must be set to true');
+        }
+    }
+
+    if($methname=='convertToPdf') {
+        if(!(isset($params['document']['name']))) {
+            throw new CustomException('The document.name cannot be none');
+        }
     }
 
 

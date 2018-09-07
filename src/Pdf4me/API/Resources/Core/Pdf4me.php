@@ -344,9 +344,9 @@ class Pdf4me extends ResourceAbstract {
      */
     public function convertToPdf(array $params) {
        $route = $this->getRoute(__FUNCTION__, $params);
-
-        $this->checkValidationSchemaGetData($params,$route,'post','convertToPdf');
         
+        $this->checkValidationSchemaGetData($params,$route,'post','convertToPdf');
+        $this->checkParamConditionValidate($params,'convertToPdf');
         return $this->client->post(
                         $route, $params
         );  
