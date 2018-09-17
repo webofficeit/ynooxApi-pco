@@ -264,7 +264,7 @@ public function checkParamConditionValidate($params,$methname,$customtext='') {
 
     if($methname=='split') {
         if($customtext=='splitAction.splitAfterPage') {
-            throw new CustomException('The '.$customtext.' must be set to true');
+            throw new CustomException('The '.$customtext.' cannot be zero');
         }
     }
 
