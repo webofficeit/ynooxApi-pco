@@ -167,13 +167,13 @@ trait PdfDataContractValidate {
                     if (isset($subparamvalue['required'])&&($isParamExit == '')) {
                         $customText = $keyschema.'.'.$subkeyparam;    
                         $this->checkParamConditionValidate($params, $this->current_methodname, $customText);
-                        throw new Pdf4meException('The '.$customText. ' cannot be none2');
+                        throw new Pdf4meException('The '.$customText. ' cannot be none');
                         }
                        
                     foreach ($subparamvalue['parameters'] as $keyfield => $fieldvalue) {
                        
                         if (($keyfield == 'required')&&($isParamExit == '')) {
-                            throw new Pdf4meException('The '.$fieldvalue . ' cannot be none3');
+                            throw new Pdf4meException('The '.$fieldvalue . ' cannot be none');
                         }
                         
                         if ($isParamExit != '') {
