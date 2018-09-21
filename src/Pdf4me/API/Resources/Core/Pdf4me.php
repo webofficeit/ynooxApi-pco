@@ -111,9 +111,12 @@ class Pdf4me extends ResourceAbstract {
       $route = $this->getRoute(__FUNCTION__, $params);
 
         $this->checkValidationSchemaGetData($params,$route,'post','splitByPageNr');
-        return $this->client->uploadMultipart(
+        $response = $this->client->uploadMultipart(
                         $route, $params
-        );    
+        );
+        // split response into seperate array
+        $splitResponse = serialize(explode(",",$response));
+        return unserialize($splitResponse);
     }
     
     /**
