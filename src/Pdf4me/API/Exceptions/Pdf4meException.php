@@ -3,10 +3,10 @@
 namespace Pdf4me\API\Exceptions;
 
 /**
- * CustomException extends the Exception class with simplified messaging
+ * Pdf4meException extends the Exception class with simplified messaging
  * @package Pdf4me\API
  */
-class CustomException extends \Exception
+class Pdf4meException extends \Exception
 {
 
     /**

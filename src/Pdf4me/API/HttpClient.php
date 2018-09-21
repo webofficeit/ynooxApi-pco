@@ -14,7 +14,7 @@ use Pdf4me\API\Middleware\RetryHandler;
 use Pdf4me\API\Resources\Core\Pdf4me;
 use Pdf4me\API\Traits\Utility\InstantiatorTrait;
 use Pdf4me\API\Utilities\Auth;
-use Pdf4me\API\Exceptions\CustomException;
+use Pdf4me\API\Exceptions\Pdf4meException;
 
 /**
  * Client class, base level access
@@ -386,7 +386,7 @@ class HttpClient
     public function getFileData($filePath)
     {
         if (!file_exists($filePath)) {
-            throw new CustomException('File ' . $filePath . ' could not be found');
+            throw new Pdf4meException('File ' . $filePath . ' could not be found');
         }
         $b64Doc = chunk_split(base64_encode(file_get_contents($filePath)));
         
@@ -404,7 +404,7 @@ class HttpClient
             foreach($docdata as $key=>$doclogvalue) {
                 switch($doclogvalue->docLogLevel) {
                     case 3:
-                    throw new CustomException($doclogvalue->message);
+                    throw new Pdf4meException($doclogvalue->message);
                     break;
                 }
                 

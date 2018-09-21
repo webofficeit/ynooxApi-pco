@@ -2,7 +2,7 @@
 
 namespace Pdf4me\API\Resources\Core;
 
-use Pdf4me\API\Exceptions\MissingParametersExceptionCustomException;
+use Pdf4me\API\Exceptions\MissingParametersExceptionPdf4meException;
 use Pdf4me\API\Exceptions\ResponseException;
 use Pdf4me\API\Http;
 use Pdf4me\API\Resources\ResourceAbstract;

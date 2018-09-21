@@ -1,7 +1,7 @@
 <?php
 
 namespace Pdf4me\API\Traits\Schema;
-use Pdf4me\API\Exceptions\CustomException;
+use Pdf4me\API\Exceptions\Pdf4meException;
 
 
 /**
@@ -16,7 +16,6 @@ trait PdfDataContractValidate {
      */
     protected function checkValidationSchemaData($params,$route, $req_type, $currentSchema = null) {
          $schemaData = $this->setDataContractSchema($params, $route, $req_type)[$route];
-         
          if (is_array($schemaData)) {
             foreach ($schemaData as $keyschema => $schemavalue) {
                 if (array_key_exists($keyschema,$params)) {
@@ -72,12 +71,22 @@ trait PdfDataContractValidate {
                     }
     }
 
-    public function setRequiredValidate($subparamvalue,$keyschema, $indexkey = null) {
+    public function setRequiredValidate($subparamvalue,$keyschema, $indexkey = null,$subkeyparam=null) {
  
+        
         if ((isset($subparamvalue['required'])&&($subparamvalue['required'] == 1)) || ((isset($keyschema['required'])) && $keyschema['required'] == 1)) {
-            $customText = ($indexkey!='')?$indexkey.'.'.$keyschema:$keyschema;
-            throw new CustomException('The '.$customText. ' cannot be none');
+            $customText = ($indexkey!='')?$indexkey.'.'.$keyschema:($subkeyparam!='')?$keyschema.'.'.$subkeyparam:$keyschema;
+            //$this->setRequiredValidateSubFeild($subparamvalue,$customText);
+            throw new Pdf4meException('The '.$customText. ' cannot be none');
         }
+    }
+    
+    public function setRequiredValidateSubFeild($subparamvalue,$customText) {
+        foreach($subparamvalue as $subreqkey => $subreqvalue) {
+                if((is_array($subreqvalue))&&(isset($subreqvalue['required']))) {
+                    throw new Pdf4meException('The '.$customText.'.'.$subreqkey. ' cannot be none');
+                } 
+            }
     }
     
     /*
@@ -116,7 +125,7 @@ trait PdfDataContractValidate {
                         
                     } else {
                         
-                        $this->setRequiredValidate($subparamvalue,$keyschema);
+                        $this->setRequiredValidate($subparamvalue,$keyschema,'',$subkeyparam);
                         
                     }
                 }
@@ -158,13 +167,13 @@ trait PdfDataContractValidate {
                     if (isset($subparamvalue['required'])&&($isParamExit == '')) {
                         $customText = $keyschema.'.'.$subkeyparam;    
                         $this->checkParamConditionValidate($params, $this->current_methodname, $customText);
-                        throw new CustomException('The '.$customText. ' cannot be none');
+                        throw new Pdf4meException('The '.$customText. ' cannot be none2');
                         }
                        
                     foreach ($subparamvalue['parameters'] as $keyfield => $fieldvalue) {
                        
                         if (($keyfield == 'required')&&($isParamExit == '')) {
-                            throw new CustomException('The '.$fieldvalue . ' cannot be none');
+                            throw new Pdf4meException('The '.$fieldvalue . ' cannot be none3');
                         }
                         
                         if ($isParamExit != '') {
@@ -185,38 +194,38 @@ trait PdfDataContractValidate {
                                 case 'type':
                                    
                                     if(($fieldvalue == 'integer')&&(!is_numeric($isParamExit))) {
-                                        throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows integer values');
+                                        throw new Pdf4meException($keyschema.'.'.$subkeyparam . ' only allows integer values');
                                     }
                                     if(($fieldvalue == 'string')&&(!is_string($isParamExit))) {
-                                        throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows string values');
+                                        throw new Pdf4meException($keyschema.'.'.$subkeyparam . ' only allows string values');
                                     }                                  
                                     if(($fieldvalue == 'upload')&&(!file_exists($isParamExit))) {
-                                        throw new CustomException('File ' . $isParamExit . ' could not be found');
+                                        throw new Pdf4meException('File ' . $isParamExit . ' could not be found');
                                     }
                                    break;
                                 case 'enum':
                                   
                                     if (!in_array(strtolower($isParamExit), $fieldvalue)) {
-                                    throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows these values'.json_encode($fieldvalue));
+                                    throw new Pdf4meException($keyschema.'.'.$subkeyparam . ' only allows these values'.json_encode($fieldvalue));
                                 }
                                 break;
                                 case 'items':
                                     
                                     if(count($isParamExit)==0) {
-                                        throw new CustomException($keyschema.'.'.$subkeyparam . ' cannot be empty'); 
+                                        throw new Pdf4meException($keyschema.'.'.$subkeyparam . ' cannot be empty'); 
                                     }
                                     if(($fieldvalue['type'] == 'integer')&& (!array_map("is_numeric", $isParamExit))) {
-                                       throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows integer values'); 
+                                       throw new Pdf4meException($keyschema.'.'.$subkeyparam . ' only allows integer values'); 
                                     }
                                     if(($fieldvalue['type'] == 'string')&&(!array_map("is_string", $isParamExit))) {
-                                       throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows string values'); 
+                                       throw new Pdf4meException($keyschema.'.'.$subkeyparam . ' only allows string values'); 
                                     }
 //                                    if(($fieldvalue == 'boolean')&&($isParamExit!='true'||$isParamExit!='false')) {
-//                                        throw new CustomException($subkeyparam . ' only allows boolean values');
+//                                        throw new Pdf4meException($subkeyparam . ' only allows boolean values');
 //                                    }
                                     
                                     if((isset($fieldvalue['enum']))&& !in_array(implode(',', array_map("strtolower", $isParamExit)), array_map("strtolower",$fieldvalue['enum']))) {
-                                        throw new CustomException($keyschema.'.'.$subkeyparam . ' only allows these values'.json_encode(array_map("strtolower",$fieldvalue['enum'])));
+                                        throw new Pdf4meException($keyschema.'.'.$subkeyparam . ' only allows these values'.json_encode(array_map("strtolower",$fieldvalue['enum'])));
                                     }
                                 break;    
                             }

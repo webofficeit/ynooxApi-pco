@@ -1,7 +1,7 @@
 <?php
 
 namespace Pdf4me\API\Traits\Schema;
-use Pdf4me\API\Exceptions\CustomException;
+use Pdf4me\API\Exceptions\Pdf4meException;
 
 /**
  * Trait ResourceName
@@ -218,10 +218,11 @@ public function checkParamTypeCasting($schemavalue,$keyschema,$reqField) {
 public function checkValidationSchemaGetData($params,$route,$req_type,$methname=null) {
     
     if(count($params)==0) {
-        throw new CustomException('The '.$methname . ' cannot be None');
+        throw new Pdf4meException('The '.$methname . ' cannot be None');
     }
     $this->current_methodname = $methname;
    $schemaData = $this->setDataContractSchema($params, $route, $req_type)[$route];
+   //echo "<pre>"; print_r($schemaData); exit();
    foreach ($schemaData as $keyschema => $schemavalue) {
             $schemaparam = isset($schemavalue['parameters'])?$schemavalue['parameters']:'';
             $param = isset($params[$keyschema])?$params[$keyschema]:'';
@@ -246,31 +247,31 @@ public function checkParamConditionValidate($params,$methname,$customtext='') {
     
     if($methname=='merge') {
        if(!(isset($params['documents'][0]))||(count($params['documents'])<2)) {
-        throw new CustomException('The merge documents must contain at least two documents');
+        throw new Pdf4meException('The merge documents must contain at least two documents');
        }
     }
     
     if($methname=='stamp') {
         if(!(isset($params['stampAction']['text']))&&(!(isset($params['stampAction']['image'])))) {
-            throw new CustomException('The image and text parameter of stampAction cannot both be None.');
+            throw new Pdf4meException('The image and text parameter of stampAction cannot both be None.');
            }
     }
 
     if($methname=='optimize') {
         if($customtext=='optimizeAction.useProfile') {
-            throw new CustomException('The '.$customtext.' must be set to true');
+            throw new Pdf4meException('The '.$customtext.' must be set to true');
         }
     }
 
     if($methname=='split') {
         if($customtext=='splitAction.splitAfterPage') {
-            throw new CustomException('The '.$customtext.' cannot be zero');
+            throw new Pdf4meException('The '.$customtext.' cannot be zero');
         }
     }
 
     if($methname=='convertToPdf') {
         if(!(isset($params['document']['name']))) {
-            throw new CustomException('The document.name cannot be none');
+            throw new Pdf4meException('The document.name cannot be none');
         }
     }
 
